@@ -214,7 +214,8 @@ function process_setup_tencentos32 {
 }
 
 function process_setup_almalinux9 {
-  process_setup_centos8
+  process_setup_alinux3
+  sed -i 's/-march=native -std=c++17 -mno-avx512f -mbmi2/-march=native -std=c++17 -mno-avx512f -mbmi2 -fPIC/g' scripts/setup-helper-functions.sh
 }
 
 echo "Preparing Velox source code..."
