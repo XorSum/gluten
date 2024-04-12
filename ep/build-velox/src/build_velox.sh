@@ -271,6 +271,14 @@ function setup_linux {
       exit 1
       ;;
     esac
+  elif [[ "$LINUX_DISTRIBUTION" == "almalinux" ]]; then
+    case "$LINUX_VERSION_ID" in
+    9.*) scripts/setup-centos8.sh ;;
+    *)
+      echo "Unsupported almalinux version: $LINUX_VERSION_ID"
+      exit 1
+      ;;
+    esac
   else
     echo "Unsupported linux distribution: $LINUX_DISTRIBUTION"
     exit 1

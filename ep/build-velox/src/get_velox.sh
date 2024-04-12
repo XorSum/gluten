@@ -213,6 +213,10 @@ function process_setup_tencentos32 {
   sed -i "s/.*dnf config-manager --set-enabled powertools/#&/" scripts/setup-centos8.sh
 }
 
+function process_setup_almalinux9 {
+  process_setup_centos8
+}
+
 echo "Preparing Velox source code..."
 echo "ENABLE_HDFS=${ENABLE_HDFS}"
 echo "BUILD_PROTOBUF=${BUILD_PROTOBUF}"
@@ -296,6 +300,14 @@ function setup_linux {
       3.2) process_setup_tencentos32 ;;
       *)
         echo "Unsupport tencentos version: $LINUX_VERSION_ID"
+        exit 1
+      ;;
+    esac
+  elif [[ "$LINUX_DISTRIBUTION" == "almalinux" ]]; then
+    case "$LINUX_VERSION_ID" in
+      9.*) process_setup_almalinux9 ;;
+      *)
+        echo "Unsupport almalinux version: $LINUX_VERSION_ID"
         exit 1
       ;;
     esac
