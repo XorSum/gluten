@@ -33,6 +33,7 @@ class SharedLibraryLoaderAlmaLinux9 extends SharedLibraryLoader {
       .loadAndCreateLink("libgflags.so.2.2", "libgflags.so", false)
       .loadAndCreateLink("libglog.so.1", "libglog.so", false)
       .loadAndCreateLink("libre2.so.9", "libre2.so", false)
+      .loadAndCreateLink("libboost_atomic.so.1.84.0", "libboost_atomic.so", false)
       .loadAndCreateLink("libboost_context.so.1.84.0", "libboost_context.so", false)
       .loadAndCreateLink("libboost_filesystem.so.1.84.0", "libboost_filesystem.so", false)
       .loadAndCreateLink("libboost_program_options.so.1.84.0", "libboost_program_options.so", false)
