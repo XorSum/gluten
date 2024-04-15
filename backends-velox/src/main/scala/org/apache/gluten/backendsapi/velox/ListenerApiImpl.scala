@@ -92,6 +92,8 @@ class ListenerApiImpl extends ListenerApi {
       new SharedLibraryLoaderDebian11
     } else if (systemName.contains("Debian") && systemVersion.startsWith("12")) {
       new SharedLibraryLoaderDebian12
+    } else if (systemName.contains("AlmaLinux") && systemVersion.startsWith("9")) {
+      new SharedLibraryLoaderAlmaLinux9
     } else {
       throw new GlutenException(
         "Found unsupported OS! Currently, Gluten's Velox backend" +

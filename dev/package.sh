@@ -49,6 +49,12 @@ function process_setup_debian_12 {
   cp /usr/local/lib/{libprotobuf.so.32,libhdfs3.so.1,libboost_context.so.1.84.0,libboost_regex.so.1.84.0} $THIRDPARTY_LIB/
 }
 
+function process_setup_almalinux_9 {
+  cp /lib64/{ld-linux-x86-64.so.2,libc.so.6,libcom_err.so.2,libcrypto.so.3,libdouble-conversion.so.3,libevent-2.1.so.7,libgcc_s.so.1,libgsasl.so.7,libgssapi_krb5.so.2,libicudata.so.67,libicui18n.so.67,libicuuc.so.67,libidn.so.12,libk5crypto.so.3,libkeyutils.so.1,libkrb5.so.3,libkrb5support.so.0,liblz4.so.1,liblzma.so.5,libm.so.6,libntlm.so.0,libpcre2-8.so.0,libre2.so.9,libresolv.so.2,libselinux.so.1,libsodium.so.23,libssl.so.3,libstdc++.so.6,libxml2.so.2,libz.so.1,libzstd.so.1}  $THIRDPARTY_LIB/
+  cp /usr/local/lib/{libboost_atomic.so.1.84.0,libboost_context.so.1.84.0,libboost_filesystem.so.1.84.0,libboost_program_options.so.1.84.0,libboost_regex.so.1.84.0,libboost_system.so.1.84.0,libboost_thread.so.1.84.0,libhdfs3.so.1,libprotobuf.so.32}  $THIRDPARTY_LIB/
+  cp /usr/local/lib64/{libgflags.so.2.2,libglog.so.1}  $THIRDPARTY_LIB/
+}
+
 if [[ "$LINUX_OS" == "ubuntu" || "$LINUX_OS" == "pop" ]]; then
   if [ "$VERSION" == "20.04" ]; then
     process_setup_ubuntu_2004
@@ -76,6 +82,10 @@ elif [ "$LINUX_OS" == "debian" ]; then
     process_setup_debian_11
   elif [ "$VERSION" == "12" ]; then
       process_setup_debian_12
+  fi
+elif [ "$LINUX_OS" == "almalinux" ]; then
+  if [ "${VERSION:0:1}" == "9" ]; then
+    process_setup_almalinux_9
   fi
 fi
 cd $THIRDPARTY_LIB/

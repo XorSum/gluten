@@ -213,6 +213,19 @@ function process_setup_tencentos32 {
   sed -i "s/.*dnf config-manager --set-enabled powertools/#&/" scripts/setup-centos8.sh
 }
 
+function process_setup_almalinux9 {
+  process_setup_centos8
+  sed -i "s/dnf config-manager --set-enabled powertools/dnf config-manager --set-enabled crb/" scripts/setup-centos8.sh
+  sed -i "s/gcc-toolset-9 //" scripts/setup-centos8.sh
+  sed -i "s/.*source \/opt\/rh\/gcc-toolset-9\/enable/#&/" scripts/setup-centos8.sh
+  sed -i 's|^export CC=/opt/rh/gcc-toolset-9/root/bin/gcc|# &|' scripts/setup-centos8.sh
+  sed -i 's|^export CXX=/opt/rh/gcc-toolset-9/root/bin/g++|# &|' scripts/setup-centos8.sh
+  sed -i 's/python39 python39-devel python39-pip //g' scripts/setup-centos8.sh
+  sed -i "s/\${CMAKE_INSTALL_LIBDIR}/lib64/" third_party/CMakeLists.txt
+  sed -i "s/dnf install/dnf install --allowerasing --nobest/g" scripts/setup-centos8.sh
+  sed -i 's/-march=native -std=c++17 -mno-avx512f -mbmi2/-march=native -std=c++17 -mno-avx512f -mbmi2 -fPIC/g' scripts/setup-helper-functions.sh
+}
+
 echo "Preparing Velox source code..."
 echo "ENABLE_HDFS=${ENABLE_HDFS}"
 echo "BUILD_PROTOBUF=${BUILD_PROTOBUF}"
@@ -296,6 +309,14 @@ function setup_linux {
       3.2) process_setup_tencentos32 ;;
       *)
         echo "Unsupport tencentos version: $LINUX_VERSION_ID"
+        exit 1
+      ;;
+    esac
+  elif [[ "$LINUX_DISTRIBUTION" == "almalinux" ]]; then
+    case "$LINUX_VERSION_ID" in
+      9.*) process_setup_almalinux9 ;;
+      *)
+        echo "Unsupport almalinux version: $LINUX_VERSION_ID"
         exit 1
       ;;
     esac
